@@ -35,7 +35,7 @@ An ESP32-based smart Diwali light controller that drives relay-controlled lights
 
 ### Referance Zero board
 
-![ESP32 Diwali Light Controller Circuit Diagram](assets/referance_zeroboard.jpeg)
+<img src="assets/referance_zeroboard.jpeg" alt="ESP32 Diwali Light Controller Circuit Diagram" width="50%">
 
 ### OLED
 
