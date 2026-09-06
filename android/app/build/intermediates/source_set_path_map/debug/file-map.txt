@@ -1,10 +1,10 @@
-com.example.esp32relay.app-pngs-0 C:\Development\Workspace\DewaliLightController\app\build\generated\res\pngs\debug
-com.example.esp32relay.app-resValues-1 C:\Development\Workspace\DewaliLightController\app\build\generated\res\resValues\debug
-com.example.esp32relay.app-packageDebugResources-2 C:\Development\Workspace\DewaliLightController\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.esp32relay.app-packageDebugResources-3 C:\Development\Workspace\DewaliLightController\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.esp32relay.app-merged_res-4 C:\Development\Workspace\DewaliLightController\app\build\intermediates\merged_res\debug
-com.example.esp32relay.app-debug-5 C:\Development\Workspace\DewaliLightController\app\src\debug\res
-com.example.esp32relay.app-main-6 C:\Development\Workspace\DewaliLightController\app\src\main\res
+com.example.esp32relay.app-pngs-0 C:\Development\Workspace\DewaliLightController\android\app\build\generated\res\pngs\debug
+com.example.esp32relay.app-resValues-1 C:\Development\Workspace\DewaliLightController\android\app\build\generated\res\resValues\debug
+com.example.esp32relay.app-packageDebugResources-2 C:\Development\Workspace\DewaliLightController\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.esp32relay.app-packageDebugResources-3 C:\Development\Workspace\DewaliLightController\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.esp32relay.app-merged_res-4 C:\Development\Workspace\DewaliLightController\android\app\build\intermediates\merged_res\debug
+com.example.esp32relay.app-debug-5 C:\Development\Workspace\DewaliLightController\android\app\src\debug\res
+com.example.esp32relay.app-main-6 C:\Development\Workspace\DewaliLightController\android\app\src\main\res
 com.example.esp32relay.app-core-1.13.0-7 C:\Users\supra\.gradle\caches\9.0-milestone-1\transforms\044202bab3f05f87ab02259c5ae9c69b\transformed\core-1.13.0\res
 com.example.esp32relay.app-annotation-experimental-1.4.0-8 C:\Users\supra\.gradle\caches\9.0-milestone-1\transforms\07ee1270aef7ad132d5fb883afaaadc5\transformed\annotation-experimental-1.4.0\res
 com.example.esp32relay.app-viewpager2-1.0.0-9 C:\Users\supra\.gradle\caches\9.0-milestone-1\transforms\0e0eafe5bb6a6b5f77765e965cb36607\transformed\viewpager2-1.0.0\res

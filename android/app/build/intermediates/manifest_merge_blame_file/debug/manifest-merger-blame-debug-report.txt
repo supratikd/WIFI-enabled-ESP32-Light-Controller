@@ -9,8 +9,8 @@
 9        android:targetSdkVersion="34" />
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:2:5-67
-11-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:2:22-64
+11-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:2:5-67
+11-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:2:22-64
 12
 13    <permission
 13-->[androidx.core:core:1.13.0] C:\Users\supra\.gradle\caches\9.0-milestone-1\transforms\044202bab3f05f87ab02259c5ae9c69b\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
@@ -24,31 +24,31 @@
 17-->[androidx.core:core:1.13.0] C:\Users\supra\.gradle\caches\9.0-milestone-1\transforms\044202bab3f05f87ab02259c5ae9c69b\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
 18
 19    <application
-19-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:3:5-14:19
+19-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:3:5-14:19
 20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 20-->[androidx.core:core:1.13.0] C:\Users\supra\.gradle\caches\9.0-milestone-1\transforms\044202bab3f05f87ab02259c5ae9c69b\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
 21        android:debuggable="true"
 22        android:extractNativeLibs="false"
 23        android:label="ESP32 Relay Controller"
-23-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:4:9-47
+23-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:4:9-47
 24        android:testOnly="true"
 25        android:theme="@style/Theme.App.Starting" >
-25-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:5:9-50
+25-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:5:9-50
 26        <activity
-26-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:7:9-13:20
+26-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:7:9-13:20
 27            android:name="com.example.esp32relay.MainActivity"
-27-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:7:19-47
+27-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:7:19-47
 28            android:exported="true" >
-28-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:8:13-36
+28-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:8:13-36
 29            <intent-filter>
-29-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:9:13-12:29
+29-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:9:13-12:29
 30                <action android:name="android.intent.action.MAIN" />
-30-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:10:17-68
-30-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:10:25-66
+30-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:10:17-68
+30-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:10:25-66
 31
 32                <category android:name="android.intent.category.LAUNCHER" />
-32-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:11:17-76
-32-->C:\Development\Workspace\DewaliLightController\app\src\main\AndroidManifest.xml:11:27-74
+32-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:11:17-76
+32-->C:\Development\Workspace\DewaliLightController\android\app\src\main\AndroidManifest.xml:11:27-74
 33            </intent-filter>
 34        </activity>
 35
