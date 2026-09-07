@@ -1,4 +1,4 @@
-# WI-FI enabled ESP32 Diwali Light Controller
+# Wi-Fi Enabled ESP32 Light Controller with Android Interface
 
 An ESP32-based smart Diwali light controller that drives relay-controlled lights through configurable lighting patterns. The system provides Wi-Fi-based TCP control, an SSD1306 OLED display for real-time status, and adjustable pattern speed and duration.
 
