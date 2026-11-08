@@ -13,6 +13,8 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <string.h>
+#include <stdio.h>
 
 const char* ssid     = "";
 const char* password = "";
@@ -333,6 +335,13 @@ String buildStatusLine() {
 }
 
 // ---------------- OLED display rendering ----------------
+// Dashboard-style layout:
+//   Row 1: SSID (left) + mode badge, inverted, right-aligned
+//   Row 2: IP address
+//   Divider
+//   Relay grid: one box per channel, filled = ON, outlined = OFF
+//   Divider
+//   Footer: pattern/step (left) + timing (right)
 void updateDisplay() {
   if (!displayOk) return; // don't attempt to draw if init failed
 
@@ -340,32 +349,77 @@ void updateDisplay() {
   display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
 
-  // Line 0: WiFi / IP (short)
+  // ---- Row 1: WiFi status + mode badge ----
   display.setCursor(0, 0);
-  if (WiFi.status() == WL_CONNECTED) {
-    // show SSID truncated if long
-    String ss = String(WiFi.SSID());
-    if (ss.length() > 12) ss = ss.substring(0, 12) + "...";
-    display.print("WiFi: ");
+  bool wifiConnected = (WiFi.status() == WL_CONNECTED);
+  if (wifiConnected) {
+    String ss = WiFi.SSID();
+    if (ss.length() > 10) ss = ss.substring(0, 9) + ".";
     display.print(ss);
   } else {
-    display.print("WiFi: DISCONNECTED");
+    display.print("No WiFi");
   }
 
-  // Line 1: IP (smaller)
+  const char* modeLabel;
+  switch (currentMode) {
+    case MODE_AUTO:             modeLabel = "AUTO";   break;
+    case MODE_MANUAL_STATIC:    modeLabel = "STATIC"; break;
+    case MODE_MANUAL_RUN_ONCE:  modeLabel = "RUN";     break;
+    default:                    modeLabel = "LOOP";    break;
+  }
+  int badgeW = strlen(modeLabel) * 6 + 4;
+  int badgeX = SCREEN_WIDTH - badgeW;
+  display.fillRect(badgeX, 0, badgeW, 9, SSD1306_WHITE);
+  display.setTextColor(SSD1306_BLACK);
+  display.setCursor(badgeX + 2, 1);
+  display.print(modeLabel);
+  display.setTextColor(SSD1306_WHITE);
+
+  // ---- Row 2: IP address ----
   display.setCursor(0, 9);
-  display.print("IP: ");
-  if (WiFi.status() == WL_CONNECTED) display.print(WiFi.localIP().toString());
-  else display.print("0.0.0.0");
+  display.print("IP ");
+  display.print(wifiConnected ? WiFi.localIP().toString() : String("---.---.---.---"));
 
-  // Line 2: Mode and pattern
-  display.setCursor(0, 20);
-  display.print("Mode:");
-  if (currentMode == MODE_AUTO) display.print("AUTO");
-  else if (currentMode == MODE_MANUAL_STATIC) display.print("MANUAL_STAT");
-  else if (currentMode == MODE_MANUAL_RUN_ONCE) display.print("RUN_ONCE");
-  else display.print("M_LOOP");
+  display.drawFastHLine(0, 18, SCREEN_WIDTH, SSD1306_WHITE);
 
+  // ---- Relay grid: one box per active channel ----
+  const int gridTop = 21;
+  const int gridBottom = 52;
+  const int gap = 3;
+  int cols = min(activeRelayCount, 4);
+  int rows = (activeRelayCount + cols - 1) / cols;
+  int boxW = (SCREEN_WIDTH - (cols + 1) * gap) / cols;
+  int boxH = (gridBottom - gridTop - (rows - 1) * gap) / rows;
+  int gridW = cols * boxW + (cols - 1) * gap;
+  int xOffset = (SCREEN_WIDTH - gridW) / 2;
+
+  for (int i = 0; i < activeRelayCount; ++i) {
+    int col = i % cols;
+    int row = i / cols;
+    int x = xOffset + col * (boxW + gap);
+    int y = gridTop + row * (boxH + gap);
+
+    char label[4];
+    snprintf(label, sizeof(label), "R%d", i + 1);
+    int textW = strlen(label) * 6;
+    int tx = x + (boxW - textW) / 2;
+    int ty = y + (boxH - 8) / 2;
+
+    if (relayState[i]) {
+      display.fillRect(x, y, boxW, boxH, SSD1306_WHITE);
+      display.setTextColor(SSD1306_BLACK);
+    } else {
+      display.drawRect(x, y, boxW, boxH, SSD1306_WHITE);
+      display.setTextColor(SSD1306_WHITE);
+    }
+    display.setCursor(tx, ty);
+    display.print(label);
+    display.setTextColor(SSD1306_WHITE);
+  }
+
+  display.drawFastHLine(0, 54, SCREEN_WIDTH, SSD1306_WHITE);
+
+  // ---- Footer: current pattern/step (left) + timing (right) ----
   int dispPattern = currentPatternIdx;
   int dispStep = patternStepIndex;
   if (currentMode == MODE_MANUAL_LOOP) {
@@ -375,64 +429,16 @@ void updateDisplay() {
     dispPattern = manualRunPatternIdx;
     dispStep = manualRunStep;
   }
-  display.print(" P"); display.print(dispPattern+1);
-  display.print(" S"); display.print(dispStep);
+  int len = PATTERN_LENGTHS[dispPattern];
+  dispStep = dispStep % max(1, len);
 
-  // Line 3..: Relays as boxes/labels
-  for (int i = 0; i < activeRelayCount; ++i) {
-    int x = (i % 4) * 30;
-    int y = 34 + (i / 4) * 9;
-    if (relayState[i]) {
-      display.fillRect(x, y, 10, 10, SSD1306_WHITE);
-      display.setTextColor(SSD1306_WHITE);
-      display.setCursor(x + 12, y);
-      display.print("R"); display.print(i+1);
-      display.setTextColor(SSD1306_WHITE);
-    } else {
-      display.drawRect(x, y, 10, 10, SSD1306_WHITE);
-      display.setCursor(x + 12, y);
-      display.print("R"); display.print(i+1);
-    }
-  }
+  display.setCursor(0, 56);
+  display.print("P"); display.print(dispPattern + 1); display.print("/"); display.print(PATTERN_COUNT);
+  display.print(" S"); display.print(dispStep + 1); display.print("/"); display.print(len);
 
-  // Footer: show pattern mask + timings
-  display.setCursor(0, 54);
-  uint8_t mask = 0;
-  if (currentMode == MODE_MANUAL_LOOP) {
-    if (manualLoopPatternIdx >= 0 && manualLoopPatternIdx < PATTERN_COUNT) {
-      int len = PATTERN_LENGTHS[manualLoopPatternIdx];
-      int step = (manualLoopStepIndex % max(1, len));
-      mask = effectiveMask(manualLoopPatternIdx, step);
-    }
-    display.print("Mloop:");
-  } else if (currentMode == MODE_MANUAL_RUN_ONCE) {
-    if (manualRunPatternIdx >= 0 && manualRunPatternIdx < PATTERN_COUNT) {
-      int len = PATTERN_LENGTHS[manualRunPatternIdx];
-      int mr = manualRunStep;
-      if (mr >= len) mr = len - 1;
-      if (mr < 0) mr = 0;
-      mask = effectiveMask(manualRunPatternIdx, mr);
-    }
-    display.print("Run:");
-  } else {
-    int len = PATTERN_LENGTHS[currentPatternIdx];
-    int step = patternStepIndex % max(1, len);
-    mask = effectiveMask(currentPatternIdx, step);
-    display.print("Auto:");
-  }
-  for (int b = activeRelayCount-1; b >= 0; --b) {
-    display.print( ( (mask >> b) & 1 ) ? '1' : '0' );
-  }
-
-  // show timing info near right
-  display.setCursor(80, 54);
-  display.print("STEP:");
-  display.print(PATTERN_STEP_MS);
-  display.print("ms");
-  display.setCursor(80, 62);
-  display.print("RUN:");
-  display.print(PATTERN_RUN_MS / 1000);
-  display.print("s");
+  display.setCursor(72, 56);
+  display.print(PATTERN_STEP_MS); display.print("ms ");
+  display.print(PATTERN_RUN_MS / 1000); display.print("s");
 
   display.display();
 }
