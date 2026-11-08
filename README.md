@@ -8,8 +8,8 @@ An ESP32-based smart Diwali light controller that drives relay-controlled lights
 
 ## Features
 
-- 10 pre-configured lighting patterns
-- Control up to 4 relay outputs
+- 20 pre-configured lighting patterns (P1-P10 4-bit, P11-P20 8-bit)
+- Selectable 4-channel or 8-channel relay mode (`CHANNELS 4|8`)
 - Wi-Fi connectivity with TCP server on port 8080
 - 0.96" SSD1306 OLED for real-time system status
 - Adjustable pattern speed and run duration
@@ -51,10 +51,14 @@ An ESP32-based smart Diwali light controller that drives relay-controlled lights
 
 | Relay | ESP32 GPIO |
 |---|---|
-| Relay 1 | GPIO 2 |
-| Relay 2 | GPIO 4 |
-| Relay 3 | GPIO 16 |
-| Relay 4 | GPIO 17 |
+| Relay 1 | GPIO 12 |
+| Relay 2 | GPIO 14 |
+| Relay 3 | GPIO 27 |
+| Relay 4 | GPIO 26 |
+| Relay 5 (8ch only) | GPIO 16 |
+| Relay 6 (8ch only) | GPIO 33 |
+| Relay 7 (8ch only) | GPIO 32 |
+| Relay 8 (8ch only) | GPIO 17 |
 
 ## Software Requirements
 
@@ -90,8 +94,9 @@ Commands can be sent through a TCP client connected to the ESP32.
 | `ON` | Turn all relays ON |
 | `OFF` | Turn all relays OFF |
 | `AUTO` | Start automatic pattern cycling |
-| `P1` - `P10` | Select a lighting pattern |
-| `M P1` - `M P10` | Run a selected pattern continuously |
+| `CHANNELS 4` / `CHANNELS 8` | Select 4 or 8 relay channels |
+| `P1` - `P20` | Select a lighting pattern |
+| `M P1` - `M P20` | Run a selected pattern continuously |
 | `SPD+` | Increase pattern speed |
 | `SPD-` | Decrease pattern speed |
 | `STEP 500` | Set pattern step interval to 500 ms |
@@ -129,7 +134,8 @@ The OLED provides information such as:
 
 ## Lighting Patterns
 
-The controller supports 10 predefined lighting patterns. Each pattern consists of a sequence of relay masks.
+The controller supports 20 predefined lighting patterns. Each pattern consists of a sequence of relay masks.
+P1-P10 are 4-bit patterns (mirrored onto relays 5-8 in 8-channel mode). P11-P20 (Chase 8, Reverse 8, Ping-Pong, Fill 8, Fill & Drain, Center Out, Edges In, Alt 8, Pair Run, Twinkle) are 8-bit patterns (folded onto relays 1-4 in 4-channel mode). The Android app defines the same patterns.
 
 Example:
 
